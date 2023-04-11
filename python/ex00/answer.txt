@@ -1,0 +1,5 @@
+conda info
+pip show numPy
+conda remove numPy
+conda install numPy
+pip freeze > requirements.txt
