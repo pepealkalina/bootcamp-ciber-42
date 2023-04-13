@@ -6,7 +6,7 @@
 #    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 20:14:50 by preina-g          #+#    #+#              #
-#    Updated: 2023/04/12 21:51:15 by preina-g         ###   ########.fr        #
+#    Updated: 2023/04/13 13:09:45 by preina-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ cookbook = {
 def print_recipes():
 	for key in cookbook:
 		print(key)
+	print()
 
 def print_info(recipes=""):
 	meals = []
@@ -68,6 +69,8 @@ def user_add_recipe():
 			break
 	meal = input("Enter a meal type:\n>> ")
 	prep = input("Enter a preparation time:\n>> ")
+	while prep.isnumeric() == False:
+		prep = input("Enter a preparation time:\n>> ")
 	cookbook.update({str(recipe) : {"meal" : str(meal), "prep_time" : str(prep), "ingredients" : ingre}})
 	print()
 

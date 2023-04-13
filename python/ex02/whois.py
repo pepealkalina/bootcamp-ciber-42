@@ -6,7 +6,7 @@
 #    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 13:34:09 by preina-g          #+#    #+#              #
-#    Updated: 2023/04/11 18:08:24 by preina-g         ###   ########.fr        #
+#    Updated: 2023/04/13 13:03:53 by preina-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,8 @@ else:
 	else:
 		num = int(argv)
 		if num == 0:
-			print("Its Zero ;)")
+			print("Im' Zero")
 		elif num % 2 == 0:
-			print("Its even")
+			print("Im' Even")
 		elif num % 2 == 1:
-			print("Its odd")
+			print("Im' Odd")

@@ -6,10 +6,10 @@
 #    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 19:24:58 by preina-g          #+#    #+#              #
-#    Updated: 2023/04/12 13:57:59 by preina-g         ###   ########.fr        #
+#    Updated: 2023/04/13 13:23:51 by preina-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 kata = "The right format"
 
-print("{0:{1}>42}".format(kata, '-'))
+print("{0:{1}>42}".format(kata, '-'), end="")

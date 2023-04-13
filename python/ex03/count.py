@@ -6,7 +6,7 @@
 #    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 14:06:12 by preina-g          #+#    #+#              #
-#    Updated: 2023/04/11 20:42:25 by preina-g         ###   ########.fr        #
+#    Updated: 2023/04/13 13:04:29 by preina-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ import sys
 
 def text_analyzer(strin=""):
 	"""
-	This function counts the number of upper characters, lower characters, punctuation and spaces in a given text."""
+	This function counts the number of upper characters, lower characters, punctuation and spaces in a given text.
+	"""
 	uppercase = 0
 	lowercase = 0
 	spaces = 0
