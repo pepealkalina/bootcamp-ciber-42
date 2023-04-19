@@ -6,7 +6,7 @@
 #    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/12 17:35:25 by preina-g          #+#    #+#              #
-#    Updated: 2023/04/12 19:23:32 by preina-g         ###   ########.fr        #
+#    Updated: 2023/04/13 19:00:41 by preina-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ morse_dict = {
 }
 
 def traduce_to_morse(joined):
-    i = 1
+    i = 0
     morse = []
     while i < len(joined):
         c = joined[i]

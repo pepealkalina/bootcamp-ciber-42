@@ -1,4 +1,4 @@
-conda info
+conda list
 pip show numPy
 conda remove numPy
 conda install numPy

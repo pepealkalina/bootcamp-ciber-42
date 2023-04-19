@@ -6,7 +6,7 @@
 #    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 12:56:38 by preina-g          #+#    #+#              #
-#    Updated: 2023/04/11 18:08:27 by preina-g         ###   ########.fr        #
+#    Updated: 2023/04/13 16:57:09 by preina-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ import sys
 arg_len = len(sys.argv)
 
 if arg_len == 1:
-	print()
+	exit()
 else:
 	i = arg_len - 1;
 	while i >= 1:

@@ -6,7 +6,7 @@
 #    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/12 20:41:23 by preina-g          #+#    #+#              #
-#    Updated: 2023/04/12 21:23:36 by preina-g         ###   ########.fr        #
+#    Updated: 2023/04/13 16:46:56 by preina-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,10 @@ def guess_num(num, count, guess=""):
 	if str(guess) == "exit":
 		print("Goodbye!")
 		exit()
+	elif guess.isnumeric() == False:
+		print("Invalid expression")
+		count += 1
+		guess_num(num, count, input("Guess the number:\n>>> "))
 	elif int(guess) >= 100:
 		print("Out of range")
 		count += 1

@@ -1,32 +1,20 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    whois.py                                           :+:      :+:    :+:    #
+#    test.py                                            :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/11 13:34:09 by preina-g          #+#    #+#              #
-#    Updated: 2023/04/13 16:57:17 by preina-g         ###   ########.fr        #
+#    Created: 2023/04/13 19:44:20 by preina-g          #+#    #+#              #
+#    Updated: 2023/04/16 11:44:35 by preina-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-import sys
+from book import Book
+from recipe import Recipe
 
-argc = len(sys.argv)
+hola = ['si']
 
-if argc == 1:
-	exit()
-elif argc >= 3:
-	print("Error: so many arguments")
-else:
-	argv = sys.argv[1]
-	if argv.isnumeric() == 0:
-		print("Error: the argument is not an integer")
-	else:
-		num = int(argv)
-		if num == 0:
-			print("Im' Zero")
-		elif num % 2 == 0:
-			print("Im' Even")
-		elif num % 2 == 1:
-			print("Im' Odd")
+recipe = Recipe("hola", 5, 30, hola,"si", "lunch")
+
+print(recipe)

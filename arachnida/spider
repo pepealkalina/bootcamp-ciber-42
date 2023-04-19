@@ -1,0 +1,150 @@
+#!/goinfre/preina-g/miniconda3/envs/42AI-preina-g/bin/python3.7
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    spider.py                                          :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/04/16 11:51:32 by preina-g          #+#    #+#              #
+#    Updated: 2023/04/16 19:15:33 by preina-g         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+#Ole'
+#hay mono de PALOOOOOOOOOOS MEEEEEEEEEEEEEEEEEN
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse
+import os
+import requests
+import sys
+import argparse
+
+init_url = []
+saved_links = []
+saved_images = []
+extensions = ['.jpg', '.jpeg', '.png', '.bmp', '.gif']
+
+#Descarga las imagenes del enlace pasado y las mete en data
+def get_images(url, path):
+    parse_url = urlparse(url)
+    if parse_url.scheme == 'file' or parse_url.scheme == '':
+        raw = BeautifulSoup(open(url.lstrip('file:')).read(), 'html.parser')
+    elif parse_url.scheme == 'http' or parse_url.scheme == 'https':
+        raw = BeautifulSoup(requests.get(url).text, 'html.parser')
+    imgs = raw.find_all('img')
+    img_sources_raw = []
+    img_sources_clean = []
+    
+    si = url.center(30, '-')
+    open("saved_images.txt", "a").write("\n\n|{}|\n\n".format(si))
+
+    for images in imgs:
+        if images:
+            src = images.get('src')
+            for e in extensions:
+                if str(src).endswith(e):
+                    img_sources_raw.append(images.get('src'))
+
+
+    img_sources_clean = [x for i, x in enumerate(img_sources_raw) if x not in img_sources_raw[:i] and x not in saved_images] #guarda las imagenes no duplicadas
+
+    for link in img_sources_clean:
+        saved_images.append(link)
+        parse_link = urlparse(link)
+        if parse_link.scheme == 'https' or parse_link.scheme == 'https':
+            try:
+                content = requests.get(link)
+                open(path + link.split('/')[-1], 'wb').write(content.content)
+                open("saved_images.txt", "a").write("DOWNLOAD IMG: {}\n".format(link))
+            except:
+                open("saved_images.txt", "a").write("DOWNLOAD ERROR: {}\n".format(link))
+                continue
+        elif parse_url.scheme == '' or parse_url.scheme == 'file':
+            if os.path.exists(parse_link.path):
+                open(path + link.split('/')[-1], 'wb').write(open(parse_url.path, 'rb').read())
+                open("saved_images.txt", "a").write("DOWNLOAD IMG: {}\n".format(link))
+            else:
+                open("saved_images.txt", "a").write("DOWNLOAD ERROR: {}\n".format(link))
+
+                
+
+#acceder a las urls dependiendo del nivel
+def get_urls_recursive(url, path, depth=5):
+    host = urlparse(init_url)
+    parse_url = urlparse(url)
+    if parse_url.scheme == 'file' or parse_url.scheme == '':
+        raw = BeautifulSoup(open(parse_url.path).read(), 'html.parser')
+        links = raw.find_all('a')
+        links_src = []
+
+        print("LOOKING in: {} -> DEPTH: {}".format(url, depth))
+        get_images(url, path)
+        for src in links:
+            d = src.get('href')
+            if d and host.hostname in d not in saved_links:
+                links_src.append(d)
+            else:
+                open("invalid_urls.txt", "a").write("INAVLID URL: {}\n".format(d))
+
+        i = 0
+        for link in links_src:
+            if depth > 0 and link not in saved_links:
+                try:
+                    saved_links.append(link)
+                    get_urls_recursive(link, path, depth-1)
+                except:
+                    continue
+    elif parse_url.scheme == 'http' or parse_url.scheme == 'https':
+        try:
+            host = urlparse(url)
+            #parse_url = urlparse(url)
+            raw = BeautifulSoup(requests.get(url).text, 'html.parser')
+            links = raw.find_all('a')
+            links_src = []
+            print("LOOKING in: {} -> DEPTH: {}".format(url, depth), end='\r', flush=True)
+            get_images(url, path)
+            for src in links:
+                d = src.get('href')
+                if d and host.hostname in d and d not in saved_links:
+                    links_src.append(d)
+                else:
+                    open("lol.txt", "a").write("INAVLID URL: {}\n".format(d))
+            i = 0
+            for link in links_src:
+                if depth > 0 and link not in saved_links:
+                    try:
+                        saved_links.append(link)
+                        get_urls_recursive(link, path, depth-1)
+                    except:
+                        continue
+        except:
+            pass
+    else:
+        print("URL SCHEME NOT VALID: Only 'https://' 'http://' 'file://' or 'Relative path of local file' ")
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Web scrap project')
+    parser.add_argument('url', type=str, help='Url from the site to Scrap')
+    parser.add_argument('-r', '--recursive', action='store_true', help='Do the Scrap recursively')
+    parser.add_argument('-l', '--level',type=int, default='5', help='Set the level of webs to scrap')
+    parser.add_argument('-p', '--path', type=str, default='./data/', help='Set the path to save the images')
+    return parser.parse_args()
+
+def spider():
+    args = parse_arguments()
+    init_url = args.url
+    if args.recursive:
+        try:
+            os.makedirs(args.path)
+        except FileExistsError:
+            os.remove(args.path + '*')
+            os.rmdir(args.path)
+            os.mkdir(args.path)
+            get_urls_recursive(args.url, args.path, args.level)
+    else:
+        os.makedirs('./data/')
+        get_urls_recursive(args.url, depth=0)
+
+if __name__=='__main__':
+    spider()

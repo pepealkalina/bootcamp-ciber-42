@@ -6,7 +6,7 @@
 #    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:55:46 by preina-g          #+#    #+#              #
-#    Updated: 2023/04/13 13:20:03 by preina-g         ###   ########.fr        #
+#    Updated: 2023/04/13 21:23:13 by preina-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ def ft_progress(listy):
         
 
 if __name__=='__main__':
-    listy = range(100, 200)
+    listy = range(1000)
     ret = 0
     for elem in ft_progress(listy):
         ret += (elem + 3) % 5
