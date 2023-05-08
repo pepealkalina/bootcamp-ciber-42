@@ -74,27 +74,34 @@ def get_urls_recursive(url, path, depth=5):
     host = urlparse(init_url)
     parse_url = urlparse(url)
     if parse_url.scheme == 'file' or parse_url.scheme == '':
-        raw = BeautifulSoup(open(parse_url.path).read(), 'html.parser')
-        links = raw.find_all('a')
-        links_src = []
+        try:
+            raw = BeautifulSoup(open(parse_url.path).read(), 'html.parser')
+            links = raw.find_all('a')
+            links_src = []
 
-        print("LOOKING in: {} -> DEPTH: {}".format(url, depth))
-        get_images(url, path)
-        for src in links:
-            d = src.get('href')
-            if d and host.hostname in d not in saved_links:
-                links_src.append(d)
-            else:
-                open("invalid_urls.txt", "a").write("INAVLID URL: {}\n".format(d))
+            print("LOOKING in: {} -> DEPTH: {}".format(url, depth))
+            get_images(url, path)
+            for src in links:
+                d = src.get('href')
+                if d not in saved_links:
+                    open("valid_urls.txt", "a").write("VALID URL: {}\n".format(d))
+                    links_src.append(d)
+                elif d and host.hostname in d and d not in saved_links:
+                    open("valid_urls.txt", "a").write("VALID URL: {}\n".format(d))
+                    links_src.append(d)
+                else:
+                    open("invalid_urls.txt", "a").write("INAVLID URL: {}\n".format(d))
 
-        i = 0
-        for link in links_src:
-            if depth > 0 and link not in saved_links:
-                try:
-                    saved_links.append(link)
-                    get_urls_recursive(link, path, depth-1)
-                except:
-                    continue
+            i = 0
+            for link in links_src:
+                if depth > 0 and link not in saved_links:
+                    try:
+                        saved_links.append(link)
+                        get_urls_recursive(link, path, depth-1)
+                    except:
+                        continue
+        except:
+            pass
     elif parse_url.scheme == 'http' or parse_url.scheme == 'https':
         try:
             host = urlparse(url)
@@ -102,14 +109,14 @@ def get_urls_recursive(url, path, depth=5):
             raw = BeautifulSoup(requests.get(url).text, 'html.parser')
             links = raw.find_all('a')
             links_src = []
-            print("LOOKING in: {} -> DEPTH: {}".format(url, depth), end='\r', flush=True)
+            print("LOOKING in: {} -> DEPTH: {}".format(url, depth))
             get_images(url, path)
             for src in links:
                 d = src.get('href')
                 if d and host.hostname in d and d not in saved_links:
                     links_src.append(d)
                 else:
-                    open("lol.txt", "a").write("INAVLID URL: {}\n".format(d))
+                    open("invalids_url.txt", "a").write("INAVLID URL: {}\n".format(d))
             i = 0
             for link in links_src:
                 if depth > 0 and link not in saved_links:
@@ -135,16 +142,13 @@ def spider():
     args = parse_arguments()
     init_url = args.url
     if args.recursive:
-        try:
-            os.makedirs(args.path)
-        except FileExistsError:
-            os.remove(args.path + '*')
-            os.rmdir(args.path)
-            os.mkdir(args.path)
-            get_urls_recursive(args.url, args.path, args.level)
+        os.system('rm -rf ' + args.path)
+        os.mkdir(args.path)
+        get_urls_recursive(args.url, args.path, args.level)
     else:
+        os.system('rm -rf ./data/')
         os.makedirs('./data/')
-        get_urls_recursive(args.url, depth=0)
+        get_urls_recursive(args.url, './data/', depth=0)
 
 if __name__=='__main__':
     spider()

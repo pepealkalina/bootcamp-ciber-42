@@ -11,3 +11,26 @@
 #                                                                              #
 # **************************************************************************** #
 
+import exifread
+import os
+import sys
+
+
+def scorpion(path):
+    try:
+        print("\n\nFROM:", path, '\n')
+        with open(path, 'rb') as file:
+            metadates = exifread.process_file(file)
+            for key in metadates.keys():
+                print('IMAGE DATA: {} -> {}'.format(key, metadates[key]))
+    except FileNotFoundError:
+        print('ERROR: Wrong format or inexistent file\nOnly support .jpg/.jpeg .png .gif .bmp  ->', path)
+        return
+    
+if __name__=='__main__':
+    args = sys.argv[1:]
+    for d in args:
+        if d.endswith('.jpeg') or d.endswith('.png') or d.endswith('.gif') or d.endswith('.jpg') or d.endswith('.bmp'):
+            scorpion(d)
+        else:
+            print('ERROR: Wrong format or inexistent file\nOnly support .jpg/.jpeg .png .gif .bmp  ->', d)

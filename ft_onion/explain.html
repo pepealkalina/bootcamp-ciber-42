@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="index.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@300&display=swap" rel="stylesheet">
+	<title>ft_onion</title>
+</head>
+<body>
+    <div class="explain">
+        <div class="titulo">
+            <h1>ft_onion</h1>
+        </div>
+        <div class="body">
+            <h2>ft_onion y Servicios ocultos</h2>
+            <p>
+                El ft_onion es un proyecto del Bootcam de ciberseguridad creado por Telefonica Tech y la liga de ciberseguridad de 42 Madrid.<br>
+                <br>
+                Consiste en crear un servidor web con un servicio oculto, los cuales son utilizzados por Tor donde se puede buscar mas info <a href="https://www.torproject.org/">aqui</a>.
+                Estos se caracterizan por hacer una conexion cifrada y por nodos los cuales funcionan de la siguiente manera:<br><br>
+                1. <b>El mensaje se encripta con la clave pública del nodo de salida</b>, luego con la del nodo del medio y, finalmente, con la del nodo de entrada.<br>
+                2. <b>El mensaje se envía al nodo de entrada</b>, el cual desencripta la primera capa y le envía el mensaje al segundo servidor.<br>
+                3. <b>El nodo del medio recibe el mensaje y desencripta la segunda capa</b>, luego lo remite al tercer servidor.<br>
+                4. <b>El nodo de salida recibe la petición desencriptada y se la envía al servidor web</b>, pero no conoce la dirección IP del usuario ni la del nodo de entrada.<br>
+                5. Finalmente, la respuesta del servidor se envía siguiendo el procedimiento inverso.<br>
+                <br>
+                Esto permite anonimato y seguridad tanto al servidor como al usuario ya que tanto el servidor como el usuario no conocen la IP ni los datos de este.<br>
+                Tor permite conectarte a estos servidores desde tu  ordenador aunq hay que tener cuidado dende te conectas para evitar fraudes o ciberdelitos hacia tu persona.
+            </p>
+            <h2>ft_onion y NGINX</h2>
+            <p>
+                En el ft_onion necesitas crear un servidor web en http para esto se usa NGINX el cual permite hacer el servidor de manera facil y sencilla.<br>
+                Desde la carpeta /var/www/html/ te lee tu index.html el cual te permite mostrar tu web. Este se puede acceder desde el puerto 80, puerto predeterminado en http.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

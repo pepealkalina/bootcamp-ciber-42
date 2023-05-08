@@ -6,7 +6,7 @@
 #    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/21 13:18:02 by preina-g          #+#    #+#              #
-#    Updated: 2023/04/25 16:46:06 by preina-g         ###   ########.fr        #
+#    Updated: 2023/04/26 10:55:44 by preina-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ def get_otp_key(key_file):
         key = decode.decrypt(file.read())
         time_code = int(time.time())//30 #genera el codigo de tiempo para luego generar el codigo encriptado
         code = hmac.new(bytearray.fromhex(str(key).split("'")[1]) , int.to_bytes(time_code, 8, byteorder='big'), hashlib.sha1).digest()
-        nibble = code[len(code) - 1] & 0xf #extrae  el ultimo semi-octeto del codigo hmac 
+        nibble = code[len(code) - 1] & 0xf #extrae  el ultimo semi-octeto (nibble) del codigo hmac 
         otp_pass = (	#convierte el nibble en  el codigo de 6 cifras
             (code[nibble] & 0x7f) << 24 |
             (code[nibble + 1] & 0xff) << 16 |

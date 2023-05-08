@@ -1,0 +1,94 @@
+.titulo{
+	text-align: center;
+	font-family: 'Chivo Mono', monospace;
+	height: auto;
+	width: 600px;
+	font-size: larger;
+	border-bottom: 2px solid #6C63FF;
+	margin-bottom: 100px;
+}
+
+.link__tab{
+	height: auto;
+	width: auto;
+	padding-top: 300px;
+}
+
+.link{
+	width: 600px;
+	height: 600px;
+	border: 0px solid #F5F5F5;
+	font-family: 'Chivo Mono', monospace;
+	font-size: 30px;
+	border-radius: 40px;
+	text-align: center;
+	text-decoration: none;
+	background-color: white;
+	color: black;
+	margin: 100px;
+	box-shadow: 5px 5px 10px #C0C0C0;
+}
+.link:hover{
+	background-color: #E0E0E0;
+}
+
+.command{
+	width: auto;
+	height: auto;
+	margin: 3px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	margin-right: 200px;
+	border: 2px solid #5A50B7;
+	font-family: 'Chivo Mono', monospace;
+	font-size: medium;
+	border-radius: 20px;
+	background-color: #5A50B7;
+	color: white;
+}
+
+.command__text{
+	margin-left: 50px;
+}
+
+.explain{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.content{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.body{
+	font-family: 'Chivo Mono', monospace;
+	margin-left: 325px;
+	margin-right: 325px;
+	font-size: larger;
+	color: #494949
+}
+
+h2{
+	text-align: center;
+	margin-top: 100px;
+	margin-bottom: 50px;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+b{
+	color: black;
+}
+
+img{
+	height: 400px;
+	width: 550px;
+	margin-bottom: 50px;
+}
+
+body{
+	background-color: #F5F5F5;
+}

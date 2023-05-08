@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="index.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@300&display=swap" rel="stylesheet">
+	<title>ft_onion</title>
+</head>
+<body>
+	<div class="explain">
+		<div class="titulo">
+			<h1>ft_onion</h1>
+		</div>
+		<div class="body">
+			<p>
+				Esta es una guia rapida para mintar tu ft_onion, con los comandos esenciales para que el servidor corra en el menor tiempo posible. El proyecto 
+				lo explico en el apartado de guia la cual contiene informacion sobre tor y los servicios ocultos, ssh y nginx.
+			</p>
+			<h2>
+				Docker o VirtualBox
+			</h2>
+			<p>
+				Para mi gusto optaria por docker ya que consume menos recursos y ocupa menos espacio,
+				ademas de que con docker puedes bajarte directamente una imagen de nginx.
+
+				Primero instalariamos docker o lo iniciariamos, en los mac de la escuela 42 lo iniciariamos desde la terminal de la siguiente manera:
+				<div class="command">
+					<p class="command__text">
+						$> /sgoinfre/shared/42toolbox/init_docker.sh
+					</p>
+				</div>
+				O desde otro dispositivo iremos a <a href="https://www.docker.com/products/docker-desktop/">Docker desktop</a>
+
+				Una vex instalado ya podriamos iniciar nuestro servidor con el siguiente comando en la terminal:
+				<div class="command">
+					<p class="command__text">
+						$> docker run -it -p 4242:4242 -p 80:80 --name [nombre del contenedor] [imagen de docker]
+					</p>
+				</div>
+				<b>-it: </b> Nos deja hacer interactivo el contenedor desde la terminal. <br>
+				<b>-p:</b> Expone el puerto 4242 y 80, en este caso, desde el contenedor como los puerto 4242 y 80, vale con cualquieer otro puerto.<br>
+				<b>--name:</b> El nombre del contenedor.<br>
+				<b>imagen:</b> en este caso elegí debian pero puede ser nginx u otra imagen, se pullea directamente desde <a href="https://hub.docker.com/"> Docker hub</a><br>
+				Para salir de este ejecutamos:
+				<div class="command">
+					<p class="command__text">
+						$> exit
+					</p>
+				</div>
+				Para volver a iniciarlo ejecutamos en la terminal:
+				<div class="command">
+					<p class="command__text">
+						$> docker start -i [nombre del contenedor]
+					</p>
+				</div>
+			</p>
+			<h2>Instalacion de los paquetes</h2>
+			<p>
+				Los paquetes mas importantes para este servidor son nginx, Openssh-server y tor,
+				para la instalacion de estos lo hariamos con apt de la siguiente manera:
+				Para Openssh-server
+				<div class="command">
+					<p class="command__text">
+						$> apt install openssh-server
+					</p>
+				</div>
+				Para nginx:
+				<div class="command">
+					<p class="command__text">
+						$> apt install nginx
+					</p>
+				</div>
+				Para tor:
+				<div class="command">
+					<p class="command__text">
+						$> apt install tor
+					</p>
+				</div>
+				Tambien seria util instalar sudo para acceder a root desde ssh facilmente, y vim para modificar archivos comodamente.
+				<div class="command">
+					<p class="command__text">
+						$> apt install sudo<br>
+						$> apt install vim
+					</p>
+				</div>
+			</p>
+			<h2>Configuracion del Servidor</h2>
+			<p>
+				En la configuracion del servidor debemos entender que es tor, nginx y ssh.
+				Para empezar nuestra configuracion crearemos un usuario y lo meteremos en el grupo sudo:
+				<div class="command">
+					<p class="command__text">
+						$> adduser user1<br>
+						$> usermod -aG sudo user1
+					</p>
+				</div>
+				Esto nos servira luego cuando  nos queramos conectar por ssh a nuestro servidor.
+				Seguiremos configurando ssh, para conectarnos a nnuestro servidor desde el puerto 4242.
+				<div class="command">
+					<p class="command__text">
+						$> cd /etc/ssh<br>
+						$> vim sshd_config
+					</p>
+				</div>
+				Ahi descomentaremos la siguiente linea para que podamos conectarnos desde el puerto 4242.
+				<div class="command">
+					<p class="command__text">
+						#Port 22
+					</p>
+				</div>
+				Y cambiaremos el puerto a 4242
+				<div class="command">
+					<p class="command__text">
+						Port 4242
+					</p>
+				</div>
+				Y para iniciar ssh:
+				<div class="command">
+					<p class="command__text">
+						$> service ssh start
+					</p>
+				</div>
+				Con esto podemos conectarnos con ssh a nnuestro servidor con el puerto 4242.
+				Con ssh configurado nos iremos a nginx con el que alojaremos nuestro servidor web a traves de http.
+				Para ello primero iremos a nginx.conf y descomentaremos la linea server_tokens of;
+				<div class="command">
+					<p class="command__text">
+						$> cd /etc/nginx<br>
+						$> vim nginx.conf<br>
+						<--------------------> <br>
+						20 ~	server_tokens off;
+					</p>
+				</div>
+				Esto nos proporcionara mas seguridad ocultando el baner del servidor.
+				Luego nos iremos a <b>/var/www/html</b> y crearemos nuestro index.html la cual es la pagina que mostraremos.
+				Para iniciar nuestro servidor en nginx escribimos:
+				<div class="command">
+					<p class="command__text">
+						$> service nginx start
+					</p>
+				</div>
+				Y escribiendo la linea que se muestra a continuacion en la barra de nuestro buscador de preferencia nos conectariamos a nuestro servidor.
+				<div class="command">
+					<p class="command__text">
+						http://localhost:80
+					</p>
+				</div>
+				Por ultimo nos toca configurar tor que seria nuestro servicio oculto,
+				para ello buscaremos el archivo torrc y lo modificaremos descomentando el puerto y la direccion.
+				<div class="command">
+					<p class="command__text">
+						$> cd /etc/tor<br>
+						$> vim torrc<br>
+						<-------------------> <br>
+						71 ~	HiddenServiceDir /var/lib/tor/hidden_service/<br>
+						72 ~	HiddenServicePort 80 127.0.0.1:80
+					</p>
+				</div>
+				Esto nos conectaria nuestro servicio oculto a traves del puerto 80 y nos guaardaria los datos en <b>/var/lib/tor/hidden_service/</b>
+				Y con esto ultimo terminariamos nuestra configuracion del servidor con el servicio oculto.
+			</p>
+			<h2>Inicio de nuestro servidor</h2>
+			<p>
+				Para iniciar nuestro servidor tendriamos que iniciar tor y conseguir el hostname que esta en <b>/var/lib/tor/hidden_service/hostname</b>.<br>
+				Para iniciartor escribimos:
+				<div class="command">
+					<p class="command__text">
+						$> tor <br>
+						<br>
+						Desde una terminal desde ssh:<br>
+						-----------------------------------<br>
+						$> sudo su (nos pedira la contraseña del usuario)<br>
+						$> cd /var/lib/tor/hidden_service/<br>
+						$> cat hostname
+					</p>
+				</div>
+				Esto nos daria un hash con un .onion al final [xxxxxx...xxx.onion] y ese sera nuestro enlace de conexion en tor o en Brave tor.
+				Asi tendriamos nuestro servidor terminado.
+			</p>
+		</div>
+	</div>
+</body>
+</html>
