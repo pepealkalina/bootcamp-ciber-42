@@ -1,0 +1,48 @@
+version: '3.1'
+
+services:
+
+  server:
+    container_name: server
+    image: panubo/vsftpd:v1.0.0
+    ports:
+      - 21:21
+    volumes:
+      - ./ftp_server/vsftpd:/home/vsftpd
+      - ./ftp_server/log:/var/log/vsftpd
+      - ./ftp_server/server:/srv
+    environment:
+      - FTP_USER=user
+      - FTP_PASSWORD=1234 
+    networks:
+      - inquisitor_net
+
+  client:
+    container_name: client
+    image: jlesage/filezilla:v1.35.3
+    ports:
+      - 5800:5800
+    volumes:
+      - ./filezilla:/storage:rw
+    networks:
+      - inquisitor_net
+  
+  attack:
+    container_name: attacker
+    build: 
+      context: .
+      dockerfile: atk.Dockerfile
+    image: inquisitor.atk
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    ports:
+      - 4242:4242
+    volumes:
+      - ./src:/root:rw
+    networks:
+      - inquisitor_net
+
+networks:
+  inquisitor_net:
+    name: inquisitor_net
