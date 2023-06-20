@@ -29,26 +29,6 @@ extensions = ['.jpg', '.jpeg', '.png', '.bmp', '.gif']
 def get_images(url, path):
     parse_url = urlparse(url)
     if parse_url.scheme == 'file' or parse_url.scheme == '':
-        raw = BeautifulSoup(open(url.lstrip('file:')).read(), 'html.parser')
-    elif parse_url.scheme == 'http' or parse_url.scheme == 'https':
-        raw = BeautifulSoup(requests.get(url).text, 'html.parser')
-    imgs = raw.find_all('img')
-    img_sources_raw = []
-    img_sources_clean = []
-    
-    si = url.center(30, '-')
-    open("saved_images.txt", "a").write("\n\n|{}|\n\n".format(si))
-
-    for images in imgs:
-        if images:
-            src = images.get('src')
-            for e in extensions:
-                if str(src).endswith(e):
-                    img_sources_raw.append(images.get('src'))
-
-
-    img_sources_clean = [x for i, x in enumerate(img_sources_raw) if x not in img_sources_raw[:i] and x not in saved_images] #guarda las imagenes no duplicadas
-
     for link in img_sources_clean:
         saved_images.append(link)
         parse_link = urlparse(link)
